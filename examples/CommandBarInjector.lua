@@ -47,8 +47,8 @@ task.spawn(Inject)
 return function(...)
 	local injector = ActiveInjector
 	if not injector then
-		injector = WaitSignal.Event:Wait()
+		return false, "Not Injected"
 	end
 	
-	injector:RunAction(...)
+	return true, injector:RunAction(...)
 end
