@@ -1,0 +1,8 @@
+{
+	"name": "CommandBarBridgeInjector",
+
+	"tree": 
+	{
+			"$path": "src"
+	}
+}

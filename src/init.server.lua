@@ -21,6 +21,7 @@ activeModule.Parent = CoreGui
 
 plugin.Unloading:Connect(function()
 	if activeModule then
+		require(activeModule):_Cleanup()
 		activeModule = activeModule:Destroy()
 	end
 end)

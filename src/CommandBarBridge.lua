@@ -6,8 +6,11 @@ local HasShownInjectionWarning = false
 --We should be able to this all inside now
 local StopYieldingSignal = Instance.new("BindableEvent")
 local SignalBindable = Instance.new("BindableFunction")
+local CleanupEvent = Instance.new("BindableEvent")
 
-local m = {}
+local m = {
+	Cleanup = CleanupEvent.Event
+}
 local ModuleNamespace = {}
 local CachedConnections = {}
 
@@ -26,6 +29,10 @@ local BINDABLE_ACTIONS = {
 		local module = assert(ModuleNamespace[name], name .. " is not a registered module")
 		return module[action](...)
 	end,
+
+	Cleanup = function()
+		ModuleNamespace = {}
+	end
 }
 
 local function generateCommandBarWarning()
@@ -96,6 +103,15 @@ function m.newInjectionHandler(module)
 	
 	CachedConnections[module] = injection
 	return injection
+end
+
+function m:_Cleanup()
+	SignalBindable:Invoke("Cleanup")
+	for _, injectors in pairs(CachedConnections) do
+		injectors:Disconnect()
+	end
+	CachedConnections = {}
+	CleanupEvent:Fire()
 end
 
 return m
