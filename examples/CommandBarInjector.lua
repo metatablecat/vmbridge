@@ -9,6 +9,7 @@ local WaitSignal = Instance.new("BindableEvent")
 local ActiveInjector
 local Module = SET_ME_TO_A_MODULE_SCRIPT --set this to whatever module you want to inject
 local cleanupEvent
+local ContinueYield = true
 
 local function Inject()
 	while true do
@@ -16,6 +17,10 @@ local function Inject()
 		local CommandBar = require(CommandBarInjectionManager)
 
 		local didInject = CommandBar:WaitForInjection()
+		if not ContinueYield then
+			return --we want to kill this thread, not inject again, because its running somewhere else
+		end
+
 		if not didInject then
 			continue
 		end
@@ -31,6 +36,8 @@ local function Inject()
 end
 
 Plugin.Unloading:Connect(function()
+	ContinueYield = false
+
 	if cleanupEvent then
 		cleanupEvent:Disconnect()
 		cleanupEvent = nil
