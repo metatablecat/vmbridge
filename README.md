@@ -14,7 +14,7 @@ A basic injector that you can use is located [here](https://github.com/metatable
 
 # API
 
-`RBXScriptSignal CommandBarBridge.Unloading`
+`RBXScriptSignal CommandBarBridge.Cleanup`
 
 Signalled when CommandBarBridge's injector unloads.
 
