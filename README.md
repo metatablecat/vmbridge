@@ -5,7 +5,7 @@ A simple Plugin <> CommandBar sync module.
 # Installation
 There are two ways to install this plugin
 * Download the Plugin.rbxm model and save it to `%LOCALAPPDATA%/Roblox/Plugins%`
-* ~~Use the Roblox Plugin~~
+* [Use the Roblox Plugin](https://www.roblox.com/library/8107839697/vmbridge)
 
 # Developer Usage
 All methods are exposed under `CoreGui.CommandBarBridge` once the plugin has loaded
