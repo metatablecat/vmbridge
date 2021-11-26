@@ -1,3 +1,6 @@
+-- metatablecat 2021
+-- Licensed under Apache 2.0
+
 local CoreGui = game:GetService("CoreGui")
 local activeModule
 
@@ -21,7 +24,8 @@ activeModule.Parent = CoreGui
 
 plugin.Unloading:Connect(function()
 	if activeModule then
+		activeModule:Destroy()
 		require(activeModule):_Cleanup()
-		activeModule = activeModule:Destroy()
+		activeModule = nil
 	end
 end)

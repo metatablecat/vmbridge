@@ -52,9 +52,11 @@ Returns if the bindable has been injected into the command bar
 
 Creates a new handler for the specified module script. This module will return a cached injection handler if it's already been created. It will error if the bindable is not injected.
 
-`CommandBarBridge:WaitForInjection(silent: boolean?) -> () [CanYield]`
+`CommandBarBridge:WaitForInjection(silent: boolean?) -> boolean [CanYield]`
 
-Checks if the bindable is injected, and yields if it's not. If `silent` is true, it will mute the `Please require...` warning
+Checks if the bindable is injected, and yields if it's not. If `silent` is true, it will mute the `Please require...` warning. Returns if the thread was continued from an injection or not.
+
+This allows you to release and handle yielding threads if the injector plugin is unloaded
 
 `ModuleInjectionHandler:Disconnect() -> ()`
 

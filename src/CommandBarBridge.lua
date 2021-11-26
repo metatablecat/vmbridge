@@ -1,3 +1,6 @@
+-- metatablecat 2021
+-- Licensed under Apache 2.0
+
 local HttpService = game:GetService("HttpService")
 
 local Injected = false
@@ -28,12 +31,16 @@ local BINDABLE_ACTIONS = {
 	PerformAction = function(name, action, ...)
 		local module = assert(ModuleNamespace[name], name .. " is not a registered module")
 		return module[action](...)
-	end,
-
-	Cleanup = function()
-		ModuleNamespace = {}
 	end
 }
+
+local function AttemptSignal(...)
+	if not Injected then
+		return
+	end
+
+	return SignalBindable:Invoke(...)
+end
 
 local function generateCommandBarWarning()
 	local path = "game."..script:GetFullName()
@@ -53,7 +60,7 @@ function m:Listen()
 	end
 	
 	Injected = true
-	StopYieldingSignal:Fire()
+	StopYieldingSignal:Fire(true)
 end
 
 function m:IsInjected()
@@ -61,15 +68,21 @@ function m:IsInjected()
 end
 
 function m:WaitForInjection(silent)
-	if Injected == true then return end
+	if Injected == true then return true end
 	
 	if not HasShownInjectionWarning and not silent then
 		warn(generateCommandBarWarning())
 		HasShownInjectionWarning = true
 	end
 
-	StopYieldingSignal.Event:Wait()
+	local didInject = StopYieldingSignal.Event:Wait()
+	if not didInject then
+		return false
+		--probably fired from being cleaned up
+	end
+
 	Injected = true
+	return true
 end
 
 function m.newInjectionHandler(module)
@@ -96,7 +109,8 @@ function m.newInjectionHandler(module)
 	
 	function injection:Disconnect()
 		CachedConnections[module] = nil		
-		SignalBindable:Invoke("RemoveModuleFromNamespace", name)
+		--We wrap this because there's a chance this will be called before the injection is done
+		AttemptSignal("RemoveModuleFromNamespace", name)
 	end
 	
 	--table.freeze(injection) pls enable this roblox
@@ -106,7 +120,9 @@ function m.newInjectionHandler(module)
 end
 
 function m:_Cleanup()
-	SignalBindable:Invoke("Cleanup")
+	--Unyield yielding threads just incase
+	StopYieldingSignal:Fire(false)
+
 	for _, injectors in pairs(CachedConnections) do
 		injectors:Disconnect()
 	end

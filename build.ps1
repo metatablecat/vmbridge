@@ -1,4 +1,5 @@
 # Rojo Build Script - metatablecat
+# Licensed under Apache 2.0
 
 $name = "Plugin" # Model Name
 $extension = "rbxm" # Model Extension, can be rbxm or rbxmx, do not include the .
