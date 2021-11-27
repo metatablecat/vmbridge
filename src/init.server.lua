@@ -19,13 +19,10 @@ if not RequestScriptAccessEarly() then
 	return
 end
 
+local findModuleAlready = CoreGui:FindFirstChild("CommandBarBridge")
+if findModuleAlready then
+	return
+end
+
 activeModule = script.CommandBarBridge:Clone()
 activeModule.Parent = CoreGui
-
-plugin.Unloading:Connect(function()
-	if activeModule then
-		activeModule:Destroy()
-		require(activeModule):_Cleanup()
-		activeModule = nil
-	end
-end)

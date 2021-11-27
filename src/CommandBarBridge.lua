@@ -60,7 +60,7 @@ function m:Listen()
 	end
 	
 	Injected = true
-	StopYieldingSignal:Fire(true)
+	StopYieldingSignal:Fire()
 end
 
 function m:IsInjected()
@@ -68,21 +68,15 @@ function m:IsInjected()
 end
 
 function m:WaitForInjection(silent)
-	if Injected == true then return true end
+	if Injected == true then return end
 	
 	if not HasShownInjectionWarning and not silent then
 		warn(generateCommandBarWarning())
 		HasShownInjectionWarning = true
 	end
 
-	local didInject = StopYieldingSignal.Event:Wait()
-	if not didInject then
-		return false
-		--probably fired from being cleaned up
-	end
-
+	StopYieldingSignal.Event:Wait()
 	Injected = true
-	return true
 end
 
 function m.newInjectionHandler(module)
@@ -117,17 +111,6 @@ function m.newInjectionHandler(module)
 	
 	CachedConnections[module] = injection
 	return injection
-end
-
-function m:_Cleanup()
-	--Unyield yielding threads just incase
-	StopYieldingSignal:Fire(false)
-
-	for _, injectors in pairs(CachedConnections) do
-		injectors:Disconnect()
-	end
-	CachedConnections = {}
-	CleanupEvent:Fire()
 end
 
 return m

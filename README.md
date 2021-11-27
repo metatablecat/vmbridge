@@ -14,16 +14,6 @@ A basic injector that you can use is located [here](https://github.com/metatable
 
 # API
 
-`RBXScriptSignal CommandBarBridge.Unloading`
-
-Signalled when CommandBarBridge's injector unloads.
-
-CommandBarBridge cleans up what it can, but you should still use this when dealing with the injection unloading so that it can correctly be garbage collected.
-
-`CommandBarBridge:_Cleanup() -> ()`
-
-Used internally to unload the module. Do not call this as it will break everything.
-
 `CommandBarBridge:Listen() -> ()`
 
 Only used for command bar injection. Do not call this within plugins as it may have unspecified behaviour.
