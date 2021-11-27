@@ -4,7 +4,7 @@ A simple Plugin <> CommandBar sync module.
 
 # Installation
 There are two ways to install this plugin
-* Download the Plugin.rbxm model and save it to `%LOCALAPPDATA%/Roblox/Plugins%`
+* Download the Plugin.rbxm model and save it to `%LOCALAPPDATA%/Roblox/Plugins`
 * [Use the Roblox Plugin](https://www.roblox.com/library/8107839697/vmbridge)
 
 # Developer Usage
@@ -26,11 +26,9 @@ Returns if the bindable has been injected into the command bar
 
 Creates a new handler for the specified module script. This module will return a cached injection handler if it's already been created. It will error if the bindable is not injected.
 
-`CommandBarBridge:WaitForInjection(silent: boolean?) -> boolean [CanYield]`
+`CommandBarBridge:WaitForInjection(silent: boolean?) -> () [CanYield]`
 
-Checks if the bindable is injected, and yields if it's not. If `silent` is true, it will mute the `Please require...` warning. Returns if the thread was continued from an injection or not.
-
-This allows you to release and handle yielding threads if the injector plugin is unloaded
+Checks if the bindable is injected, and yields if it's not. If `silent` is true, it will mute the `Please require...` warning.
 
 `ModuleInjectionHandler:Disconnect() -> ()`
 
