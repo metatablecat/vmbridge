@@ -9,9 +9,10 @@ local HasShownInjectionWarning = false
 --We should be able to this all inside now
 local StopYieldingSignal = Instance.new("BindableEvent")
 local SignalBindable = Instance.new("BindableFunction")
-local CleanupEvent = Instance.new("BindableEvent")
 
-local m = {}
+local m = {
+	Injected = StopYieldingSignal.Event
+}
 local ModuleNamespace = {}
 local CachedConnections = {}
 

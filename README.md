@@ -14,6 +14,10 @@ A basic injector that you can use is located [here](https://github.com/metatable
 
 # API
 
+`RBXScriptSignal CommandBarBridge.Injected`
+
+Event for detecting when CommandBarBridge has injected.
+
 `CommandBarBridge:Listen() -> ()`
 
 Only used for command bar injection. Do not call this within plugins as it may have unspecified behaviour.
