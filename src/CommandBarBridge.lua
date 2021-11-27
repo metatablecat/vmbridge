@@ -11,9 +11,7 @@ local StopYieldingSignal = Instance.new("BindableEvent")
 local SignalBindable = Instance.new("BindableFunction")
 local CleanupEvent = Instance.new("BindableEvent")
 
-local m = {
-	Cleanup = CleanupEvent.Event
-}
+local m = {}
 local ModuleNamespace = {}
 local CachedConnections = {}
 
