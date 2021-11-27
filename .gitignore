@@ -1,3 +1,1 @@
-build.ps1
-buildAsPlugin.ps1
-deploy.ps1
+.vscode/
