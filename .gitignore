@@ -1,2 +1,3 @@
-buildAsPlugin.ps1 
+build.ps1
+buildAsPlugin.ps1
 deploy.ps1
