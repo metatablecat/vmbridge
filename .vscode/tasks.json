@@ -5,18 +5,12 @@
     [
 			{
 				"type": "shell",
-				"label": "Build Local Plugin To Repository",
-				"command": "powershell -ExecutionPolicy ByPass -File build.ps1",
+				"label": "Build Plugin",
+				"command": "powershell -ExecutionPolicy ByPass -File buildAsPlugin.ps1",
 				"group": {
 					"kind": "build",
 					"isDefault": true
 				}
-			},
-			{
-				"type": "shell",
-				"label": "Build Local Plugin To /Roblox/Plugins",
-				"command": "powershell -ExecutionPolicy ByPass -File buildAsPlugin.ps1",
-				"group": "build"
 			}
 		]
 }
