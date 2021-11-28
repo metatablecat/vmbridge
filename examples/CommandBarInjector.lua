@@ -13,6 +13,7 @@ local function Inject()
 	local CommandBarInjectionManager = CoreGui:WaitForChild("CommandBarBridge")
 	local CommandBar = require(CommandBarInjectionManager)
 
+	--TODO: Update this to not use deprecated functions.
 	CommandBar:WaitForInjection()
 	if not ContinueYield then
 		return --we want to kill this thread, not inject again, because its running somewhere else

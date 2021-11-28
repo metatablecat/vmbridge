@@ -22,13 +22,29 @@ Only used for command bar injection. Do not call this within plugins as it may h
 
 Returns if the bindable has been injected into the command bar
 
+`RBXScriptSignal CommandBarBridge.Injected`
+
+Fired when the command bar has been injected with Listen.
+
 `CommandBarBridge.newInjectionHandler(module: ModuleScript) -> ModuleInjectionHandler`
 
 Creates a new handler for the specified module script. This module will return a cached injection handler if it's already been created. It will error if the bindable is not injected.
 
-`CommandBarBridge:WaitForInjection(silent: boolean?) -> () [CanYield]`
+`CommandBarBridge:ShowCommandBarWarning() -> ()`
+
+Shows the `Please require...` message.
+
+`CommandBarBridge:WaitForInjection(silent: boolean?) -> () [CanYield] [Deprecated]`
 
 Checks if the bindable is injected, and yields if it's not. If `silent` is true, it will mute the `Please require...` warning.
+
+This is deprecated as it creates difficulties with asynchronous code. Use `CommandBar.Injected` event instead. An example of how to do this is shown below:
+```lua
+if not CommandBarBridge:IsInjected() then
+	CommandBarBridge:ShowCommandBarWarning()
+	CommandBarBridge.Injected:Wait()
+end
+```
 
 `ModuleInjectionHandler:Disconnect() -> ()`
 

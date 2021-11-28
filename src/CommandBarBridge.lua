@@ -10,7 +10,9 @@ local HasShownInjectionWarning = false
 local StopYieldingSignal = Instance.new("BindableEvent")
 local SignalBindable = Instance.new("BindableFunction")
 
-local m = {}
+local m = {
+	Injected = StopYieldingSignal.Event
+}
 local ModuleNamespace = {}
 local CachedConnections = {}
 
@@ -45,6 +47,10 @@ local function generateCommandBarWarning()
 	return string.format(fmt, path)
 end
 
+function m:ShowCommandBarWarning()
+	warn(generateCommandBarWarning())
+end
+
 function m:Listen()
 	if Injected then
 		warn("Already injected into the command bar VM.")
@@ -65,11 +71,11 @@ function m:IsInjected()
 end
 
 function m:WaitForInjection(silent)
+	warn("This function is deprecated. Please use the Injected event instead. Check the README file under WaitForInjection on how to use the event")
 	if Injected == true then return end
 	
 	if not HasShownInjectionWarning and not silent then
-		warn(generateCommandBarWarning())
-		HasShownInjectionWarning = true
+		self:ShowCommandBarWarning()
 	end
 
 	StopYieldingSignal.Event:Wait()
@@ -104,7 +110,7 @@ function m.newInjectionHandler(module)
 		AttemptSignal("RemoveModuleFromNamespace", name)
 	end
 	
-	--table.freeze(injection) pls enable this roblox
+	table.freeze(injection)
 	
 	CachedConnections[module] = injection
 	return injection
