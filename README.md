@@ -54,6 +54,12 @@ Removes the injection cache from all sources. **ALWAYS CALL THIS WHEN UNLOADING 
 
 Calls an action in the injected module and returns it's value
 
+# Building the CommandBarBridge module so that it can be used without needing the plugin.
+
+Its possible to use the CommandBarBridge module on it's own in your plugins as long as you:
+* Make the command bar able to reach it
+* Ensure there are no clashes with other copies of this module
+
 # Warnings
 
 Do not return functions or metatable tables inside your module code, functions are not allowed and tables can have unintended behaviour.
