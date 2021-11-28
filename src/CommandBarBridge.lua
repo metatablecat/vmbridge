@@ -82,7 +82,7 @@ function m:WaitForInjection(silent: boolean)
 	Injected = true
 end
 
-type InjectionHandler = {
+export type InjectionHandler = {
 	GUID: string,
 	RunAction: (InjectionHandler, string, ...any) -> ...any,
 	Disconnect: (InjectionHandler) -> ()
