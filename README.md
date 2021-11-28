@@ -34,7 +34,7 @@ Creates a new handler for the specified module script. This module will return a
 
 Shows the `Please require...` message.
 
-`CommandBarBridge:WaitForInjection(silent: boolean?) -> () [CanYield] [Deprecated]`
+~~`CommandBarBridge:WaitForInjection(silent: boolean?) -> () [CanYield] [Deprecated]`~~
 
 Checks if the bindable is injected, and yields if it's not. If `silent` is true, it will mute the `Please require...` warning.
 
