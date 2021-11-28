@@ -122,7 +122,7 @@ end
 
 type CommandBarBridge = {
 	Injected: RBXScriptSignal,
-	newInjectionHandler: () -> InjectionHandler,
+	newInjectionHandler: (ModuleScript) -> InjectionHandler,
 	
 	IsInjected: (CommandBarBridge) -> boolean,
 	Listen: (CommandBarBridge) -> (),
