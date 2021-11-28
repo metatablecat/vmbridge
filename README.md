@@ -60,6 +60,8 @@ Its possible to use the CommandBarBridge module on it's own in your plugins as l
 * Make the command bar able to reach it
 * Ensure there are no clashes with other copies of this module
 
+**I recommend building your plugins this way so the user doesn't need to install two plugins, the plugin itself is just used mostly to make it easier to develop with this**
+
 # Warnings
 
 Do not return functions or metatable tables inside your module code, functions are not allowed and tables can have unintended behaviour.
