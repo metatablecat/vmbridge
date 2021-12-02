@@ -4,6 +4,7 @@
 local CoreGui = game:GetService("CoreGui")
 local activeModule
 local silenceManualDeletionWarning = false
+local gameIsClosing = false
 
 local function RequestScriptAccessEarly()
 	local didPerformAction = pcall(function()
@@ -45,7 +46,12 @@ plugin.Unloading:Connect(function()
 		activeModule = nil
 	end
 
+	if gameIsClosing then return end
 	warn("The plugin was unloaded. Plugins that rely on this will not update until they are also reloaded.")
 end)
 
 deployModule()
+
+game:BindToClose(function()
+	gameIsClosing = true
+end)

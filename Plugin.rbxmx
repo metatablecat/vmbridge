@@ -8,6 +8,7 @@
 local CoreGui = game:GetService("CoreGui")
 local activeModule
 local silenceManualDeletionWarning = false
+local gameIsClosing = false
 
 local function RequestScriptAccessEarly()
 	local didPerformAction = pcall(function()
@@ -49,10 +50,15 @@ plugin.Unloading:Connect(function()
 		activeModule = nil
 	end
 
+	if gameIsClosing then return end
 	warn("The plugin was unloaded. Plugins that rely on this will not update until they are also reloaded.")
 end)
 
-deployModule()</string>
+deployModule()
+
+game:BindToClose(function()
+	gameIsClosing = true
+end)</string>
     </Properties>
     <Item class="ModuleScript" referent="1">
       <Properties>
@@ -89,6 +95,11 @@ local BINDABLE_ACTIONS = {
 	PerformAction = function(name, action, ...)
 		local module = assert(ModuleNamespace[name], name .. " is not a registered module")
 		return module[action](...)
+	end,
+
+	PerformNamecallAction = function(name, action, ...)
+		local module = assert(ModuleNamespace[name], name .. " is not a registered module")
+		return module[action](module, ...)
 	end
 }
 
@@ -144,6 +155,7 @@ end
 export type InjectionHandler = {
 	GUID: string,
 	RunAction: (InjectionHandler, string, ...any) -> ...any,
+	RunNamecallAction: (InjectionHandler, string, string, ...any) -> ...any,
 	Disconnect: (InjectionHandler) -> ()
 }
 
@@ -165,6 +177,10 @@ function m.newInjectionHandler(module: ModuleScript): InjectionHandler
 
 	function injection:RunAction(action: string, ...: any): ...any
 		return SignalBindable:Invoke("PerformAction", name, action, ...)
+	end
+
+	function injection:RunNamecallAction(action: string, name: string, ...: any): ...any
+		return SignalBindable:Invoke("PerformNamecallAction", name, action, ...)
 	end
 
 	function injection:Disconnect(): ()
